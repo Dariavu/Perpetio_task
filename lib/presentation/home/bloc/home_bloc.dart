@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:perpetio_task/model/post_model.dart';
+import 'package:perpetio_task/service/api_client.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -16,10 +18,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (event is GetDataEvent) {
       yield LoadingState();
 
-      print('Loading data');
-      await Future.delayed(const Duration(seconds: 2));
-
-      yield DataGotState(data: ['Hi', 'Wow', 'Durak']);
+      try {
+        final posts = await ApiClient.fetchPosts();
+        yield DataGotState(data: posts);
+      } catch (e) {
+        yield ErrorState(message: e.toString());
+      }
     }
   }
 }

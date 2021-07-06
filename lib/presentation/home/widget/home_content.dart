@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:perpetio_task/model/post_model.dart';
 import 'package:perpetio_task/presentation/home/bloc/home_bloc.dart';
+import 'package:perpetio_task/presentation/home/widget/posts_list.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({Key? key}) : super(key: key);
@@ -21,9 +23,9 @@ class HomeContent extends StatelessWidget {
             if (state is LoadingState) {
               return _createLoading();
             } else if (state is ErrorState) {
-              return _createError('Error');
+              return _createError(state.message);
             } else if (state is DataGotState) {
-              return _createData();
+              return _createData(state.data);
             }
             return Container();
           },
@@ -32,14 +34,12 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _createData() {
-    return Center(
-      child: Text('Hello'),
-    );
+  Widget _createData(List<PostModel> posts) {
+    return PostsList(posts: posts);
   }
 
   Widget _createLoading() {
-    return Center(
+    return const Center(
       child: CupertinoActivityIndicator(
         radius: 20,
       ),
@@ -47,7 +47,7 @@ class HomeContent extends StatelessWidget {
   }
 
   Widget _createError(String message) {
-    return Center(
+    return const Center(
       child: Text('Error'),
     );
   }

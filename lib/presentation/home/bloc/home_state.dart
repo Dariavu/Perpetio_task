@@ -7,10 +7,16 @@ class HomeInitial extends HomeState {}
 
 class LoadingState extends HomeState {}
 
-class ErrorState extends HomeState {}
+class ErrorState extends HomeState {
+  final String message;
+
+  ErrorState({
+    required this.message,
+  });
+}
 
 class DataGotState extends HomeState {
-  final List<String> data;
+  final List<PostModel> data;
 
   DataGotState({
     required this.data,

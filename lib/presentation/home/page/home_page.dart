@@ -9,6 +9,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Posts'),
+      ),
       body: _buildBody(context),
     );
   }
@@ -22,8 +25,7 @@ class HomePage extends StatelessWidget {
           final bloc = BlocProvider.of<HomeBloc>(context);
           if (state is HomeInitial) {
             bloc.add(GetDataEvent());
-          } else if (state is LoadingState) {
-          } else if (state is DataGotState) {}
+          }
           return HomeContent();
         },
       ),
